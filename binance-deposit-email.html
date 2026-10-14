@@ -5,11 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Email Notification</title>
     <style>
-        * { box-sizing: border-box; }
-        body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", Arial, sans-serif; background-color: #121214; color: #ffffff; margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center; }
+        body { font-family: -apple-system, BlinkMacSystemFont, Arial, sans-serif; background-color: #121214; color: #ffffff; margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center; }
         .phone-canvas { width: 100%; max-width: 412px; min-height: 100vh; background-color: #121214; display: flex; flex-direction: column; }
-        
-        /* 📱 অরিজিনাল স্ক্রিনশট ম্যাচিং আইওএস স্ট্যাটাস বার */
         .status-bar { height: 46px; display: flex; justify-content: space-between; align-items: center; padding: 0 16px; font-size: 15px; font-weight: 600; color: #ffffff; background: #121214; letter-spacing: -0.3px; }
         .sb-time { font-weight: 600; font-size: 16px; margin-left: 4px; }
         .sb-right { display: flex; align-items: center; gap: 5px; font-size: 11px; font-weight: bold; }
@@ -22,8 +19,6 @@
         .ios-battery-pill::after { content: ''; position: absolute; right: -3.5px; top: 3px; width: 1.5px; height: 4px; background: rgba(255,255,255,0.6); border-radius: 0 1px 1px 0; }
         .ios-bat-inner { height: 100%; background: #ffffff; border-radius: 1.5px; }
         .bat-num-overlay { font-size: 9px; font-weight: 800; color: #000000; position: absolute; left: 2px; z-index: 2; line-height: 1; }
-
-        /* Gmail Elements */
         .gm-bar { padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; font-size: 18px; border-bottom: 0.5px solid #28282c; }
         .m-padding { padding: 14px 16px; flex-grow: 1; }
         .m-subject { font-size: 18px; font-weight: 450; color: #e8eaed; line-height: 1.35; margin-bottom: 16px; letter-spacing: -0.2px; }
@@ -32,8 +27,6 @@
         .m-avatar { width: 40px; height: 40px; background: #b366ff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 17px; color: white; }
         .m-name-row { font-size: 15px; font-weight: 600; color: #e8eaed; display: flex; align-items: center; gap: 6px; }
         .m-date-tag { font-size: 12px; color: #9aa0a6; }
-
-        /* Embedded Email Template */
         .b-card { background: #1e2026; border-radius: 8px; overflow: hidden; border: 1px solid #2b3139; }
         .b-header { padding: 16px; text-align: center; background: #181a20; color: #f3ba2f; font-weight: 800; font-size: 16px; letter-spacing: 1.5px; border-bottom: 1px solid #2b3139; display: flex; align-items: center; justify-content: center; gap: 6px; }
         .b-body { padding: 22px 18px; }
@@ -58,12 +51,7 @@
                 </div>
             </div>
         </div>
-
-        <div class="gm-bar">
-            <span style="color:#e8eaed;">←</span>
-            <div style="display:flex; gap:20px; color:#e8eaed; font-size:16px;"><span>📥</span><span>🗑</span><span>✉</span><span>⋮</span></div>
-        </div>
-        
+        <div class="gm-bar"><span style="color:#e8eaed;">←</span><div style="display:flex; gap:20px; color:#e8eaed; font-size:16px;"><span>📥</span><span>🗑</span><span>✉</span><span>⋮</span></div></div>
         <div class="m-padding">
             <div class="m-subject">[Binance] USDT Deposit Confirmed - <span id="outDate">2025-04-04 10:43</span> (UTC)</div>
             <div class="m-sender">
@@ -71,19 +59,17 @@
                     <div class="m-avatar">B</div>
                     <div class="m-sender-info"><div class="m-name-row"><span>Binance</span> <span class="m-date-tag">Today</span></div><div style="font-size:13px; color:#9aa0a6; margin-top:1px;">to me ▾</div></div>
                 </div>
-                <div style="display:flex; gap:18px; color:#9aa0a6; font-size:14px;">☺ ↩ ⋮</div>
+                <div style="display:flex; gap:18px; color:#9aa0a6; font-size:14px;"><span>☺</span> <span>↩</span> <span>⋮</span></div>
             </div>
             <div class="b-card">
                 <div class="b-header"><span style="font-size:12px;">◆</span> BINANCE</div>
                 <div class="b-body">
                     <div class="b-title">USDT Deposit Successful</div>
-                    <div class="b-text">Your deposit of <span id="outAmt" style="font-weight:700; color:#0ecb81;">773.49665</span> USDT is now available in your Binance account. Log in to check your balance. Read our <span style="color:#f3ba2f; text-decoration:underline;">FAQs</span> if you are running into problems.</div>
-                    <a href="crypto-wallet.html" class="b-btn">Visit Your Dashboard</a>
-                    <div class="b-warn">Don't recognize this activity? Please <span style="text-decoration:underline;">reset your password</span> and contact customer support immediately.</div>
+                    <div class="b-text">Your deposit of <span id="outAmt" style="font-weight:700; color:#0ecb81;">773.49665</span> USDT is now available in your Binance account. Log in to check your balance.</div>
+                    <a href="#" class="b-btn">Visit Your Dashboard</a>
                 </div>
             </div>
         </div>
-        <a href="index.html" class="back-link">← Back to Master Controller</a>
     </div>
     <script>
         window.onload = function() {
@@ -91,8 +77,7 @@
             let bat = localStorage.getItem('b_bat') || '65';
             document.getElementById('mBatNum').innerText = bat;
             document.getElementById('mBatFill').style.width = bat + "%";
-            let net = localStorage.getItem('b_net') || '4G';
-            document.getElementById('mNetG').innerText = net;
+            document.getElementById('mNetG').innerText = localStorage.getItem('b_net') || '4G';
             document.getElementById('outDate').innerText = localStorage.getItem('b_edate') || '2025-04-04 10:43';
             document.getElementById('outAmt').innerText = localStorage.getItem('b_eamt') || '773.49665';
         }
