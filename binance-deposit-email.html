@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Email Notification</title>
+    <style>
+        * { box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", Arial, sans-serif; background-color: #121214; color: #ffffff; margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center; }
+        .phone-canvas { width: 100%; max-width: 412px; min-height: 100vh; background-color: #121214; display: flex; flex-direction: column; }
+        
+        /* 📱 অরিজিনাল স্ক্রিনশট ম্যাচিং আইওএস স্ট্যাটাস বার */
+        .status-bar { height: 46px; display: flex; justify-content: space-between; align-items: center; padding: 0 16px; font-size: 15px; font-weight: 600; color: #ffffff; background: #121214; letter-spacing: -0.3px; }
+        .sb-time { font-weight: 600; font-size: 16px; margin-left: 4px; }
+        .sb-right { display: flex; align-items: center; gap: 5px; font-size: 11px; font-weight: bold; }
+        .net-4g { font-size: 10.5px; font-weight: 800; letter-spacing: -0.5px; margin-right: -1px; }
+        .signal-bars { display: flex; align-items: flex-end; gap: 1.5px; height: 11px; margin: 0 1px; }
+        .signal-bar { width: 2.5px; background: #fff; border-radius: 0.5px; }
+        .sb-1 { height: 3px; } .sb-2 { height: 5px; } .sb-3 { height: 7.5px; } .sb-4 { height: 10px; }
+        .wifi-svg { width: 14px; height: 11px; fill: #ffffff; margin: 0 1px; }
+        .ios-battery-pill { width: 26px; height: 13px; border: 1.2px solid rgba(255,255,255,0.7); border-radius: 4px; padding: 1.5px; display: flex; align-items: center; justify-content: flex-end; position: relative; margin-left: 2px; }
+        .ios-battery-pill::after { content: ''; position: absolute; right: -3.5px; top: 3px; width: 1.5px; height: 4px; background: rgba(255,255,255,0.6); border-radius: 0 1px 1px 0; }
+        .ios-bat-inner { height: 100%; background: #ffffff; border-radius: 1.5px; }
+        .bat-num-overlay { font-size: 9px; font-weight: 800; color: #000000; position: absolute; left: 2px; z-index: 2; line-height: 1; }
+
+        /* Gmail Elements */
+        .gm-bar { padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; font-size: 18px; border-bottom: 0.5px solid #28282c; }
+        .m-padding { padding: 14px 16px; flex-grow: 1; }
+        .m-subject { font-size: 18px; font-weight: 450; color: #e8eaed; line-height: 1.35; margin-bottom: 16px; letter-spacing: -0.2px; }
+        .m-sender { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .m-sender-left { display: flex; gap: 12px; align-items: center; }
+        .m-avatar { width: 40px; height: 40px; background: #b366ff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 17px; color: white; }
+        .m-name-row { font-size: 15px; font-weight: 600; color: #e8eaed; display: flex; align-items: center; gap: 6px; }
+        .m-date-tag { font-size: 12px; color: #9aa0a6; }
+
+        /* Embedded Email Template */
+        .b-card { background: #1e2026; border-radius: 8px; overflow: hidden; border: 1px solid #2b3139; }
+        .b-header { padding: 16px; text-align: center; background: #181a20; color: #f3ba2f; font-weight: 800; font-size: 16px; letter-spacing: 1.5px; border-bottom: 1px solid #2b3139; display: flex; align-items: center; justify-content: center; gap: 6px; }
+        .b-body { padding: 22px 18px; }
+        .b-title { font-size: 19px; font-weight: 700; margin-bottom: 14px; color: #ffffff; }
+        .b-text { font-size: 13.5px; color: #eaecef; line-height: 1.55; margin-bottom: 24px; }
+        .b-btn { display: inline-block; background: #f3ba2f; color: #181a20; font-weight: 700; padding: 11px 22px; border-radius: 5px; font-size: 13.5px; text-decoration: none; }
+        .b-warn { font-size: 12px; color: #fcd435; line-height: 1.45; border-top: 1px solid #2b3139; padding-top: 14px; margin-top: 18px; }
+        .back-link { display: block; text-align: center; padding: 12px; background: #121214; color: #f3ba2f; text-decoration: none; font-size: 12px; font-weight: bold; border-top: 1px solid #28282c; }
+    </style>
+</head>
+<body>
+    <div class="phone-canvas">
+        <div class="status-bar">
+            <span class="sb-time" id="mTime">5:02</span>
+            <div class="sb-right">
+                <span class="net-4g" id="mNetG">4G</span>
+                <div class="signal-bars"><div class="signal-bar sb-1"></div><div class="signal-bar sb-2"></div><div class="signal-bar sb-3"></div><div class="signal-bar sb-4"></div></div>
+                <svg class="wifi-svg" viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9.44 2.03-12.7 5.31l1.41 1.41c2.89-2.89 6.88-4.72 11.29-4.72s8.4 1.83 11.29 4.72l1.41-1.41c-3.26-3.28-7.73-5.31-12.7-5.31zm0 4c-3.31 0-6.29 1.34-8.45 3.51l1.41 1.41c1.78-1.78 4.24-2.92 6.94-2.92s5.16 1.14 6.94 2.92l1.41-1.41c-2.16-2.17-5.14-3.51-8.45-3.51zm0 4c-1.66 0-3.15.67-4.24 1.76l1.41 1.41c.75-.75 1.78-1.21 2.83-1.21s2.08.46 2.83 1.21l1.41-1.41c-1.09-1.09-2.58-1.76-4.24-1.76zm0 3c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1z"/></svg>
+                <div class="ios-battery-pill">
+                    <span class="bat-num-overlay" id="mBatNum">65</span>
+                    <div class="ios-bat-inner" id="mBatFill" style="width: 65%;"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="gm-bar">
+            <span style="color:#e8eaed;">←</span>
+            <div style="display:flex; gap:20px; color:#e8eaed; font-size:16px;"><span>📥</span><span>🗑</span><span>✉</span><span>⋮</span></div>
+        </div>
+        
+        <div class="m-padding">
+            <div class="m-subject">[Binance] USDT Deposit Confirmed - <span id="outDate">2025-04-04 10:43</span> (UTC)</div>
+            <div class="m-sender">
+                <div class="m-sender-left">
+                    <div class="m-avatar">B</div>
+                    <div class="m-sender-info"><div class="m-name-row"><span>Binance</span> <span class="m-date-tag">Today</span></div><div style="font-size:13px; color:#9aa0a6; margin-top:1px;">to me ▾</div></div>
+                </div>
+                <div style="display:flex; gap:18px; color:#9aa0a6; font-size:14px;">☺ ↩ ⋮</div>
+            </div>
+            <div class="b-card">
+                <div class="b-header"><span style="font-size:12px;">◆</span> BINANCE</div>
+                <div class="b-body">
+                    <div class="b-title">USDT Deposit Successful</div>
+                    <div class="b-text">Your deposit of <span id="outAmt" style="font-weight:700; color:#0ecb81;">773.49665</span> USDT is now available in your Binance account. Log in to check your balance. Read our <span style="color:#f3ba2f; text-decoration:underline;">FAQs</span> if you are running into problems.</div>
+                    <a href="crypto-wallet.html" class="b-btn">Visit Your Dashboard</a>
+                    <div class="b-warn">Don't recognize this activity? Please <span style="text-decoration:underline;">reset your password</span> and contact customer support immediately.</div>
+                </div>
+            </div>
+        </div>
+        <a href="index.html" class="back-link">← Back to Master Controller</a>
+    </div>
+    <script>
+        window.onload = function() {
+            document.getElementById('mTime').innerText = localStorage.getItem('b_time') || '5:02';
+            let bat = localStorage.getItem('b_bat') || '65';
+            document.getElementById('mBatNum').innerText = bat;
+            document.getElementById('mBatFill').style.width = bat + "%";
+            let net = localStorage.getItem('b_net') || '4G';
+            document.getElementById('mNetG').innerText = net;
+            document.getElementById('outDate').innerText = localStorage.getItem('b_edate') || '2025-04-04 10:43';
+            document.getElementById('outAmt').innerText = localStorage.getItem('b_eamt') || '773.49665';
+        }
+    </script>
+</body>
+</html>
