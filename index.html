@@ -3,74 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Binance Original UI Simulator Engine</title>
+    <title>Binance Ultimate Look Simulator Pro</title>
     <style>
         * { box-sizing: border-box; }
-        body { font-family: -apple-system, BlinkMacSystemFont, Arial, sans-serif; background-color: #0b0e11; color: #eaecef; padding: 20px 10px; margin: 0; display: flex; flex-direction: column; align-items: center; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; background-color: #0b0e11; color: #eaecef; padding: 20px 10px; margin: 0; display: flex; flex-direction: column; align-items: center; }
         h1 { color: #f3ba2f; font-size: 22px; text-align: center; margin-bottom: 5px; }
         .subtitle { font-size: 12px; color: #848e9c; text-align: center; margin-bottom: 20px; }
+        
+        /* Control Form Panel */
         .setup-panel { width: 100%; max-width: 412px; background: #1e2026; padding: 18px; border-radius: 12px; border: 1px solid #2b3139; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.4); }
-        .section-title { font-size: 13px; font-weight: bold; color: #f3ba2f; margin-bottom: 12px; border-bottom: 1px solid #2b3139; padding-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .section-title { font-size: 13px; font-weight: bold; color: #f3ba2f; margin-bottom: 12px; border-bottom: 1px solid #2b3139; padding-bottom: 5px; text-transform: uppercase; }
         .form-group { margin-bottom: 12px; display: flex; flex-direction: column; }
         label { font-size: 11px; color: #848e9c; margin-bottom: 5px; font-weight: 500; }
         input { padding: 10px; border-radius: 6px; border: 1px solid #474f59; background: #181a20; color: white; font-size: 14px; }
         .action-btn { width: 100%; padding: 13px; background: #f3ba2f; color: #181a20; border: none; border-radius: 6px; font-size: 14px; font-weight: bold; cursor: pointer; }
-        .mode-selector-tabs { display: flex; width: 100%; max-width: 412px; background: #1e2026; padding: 4px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #2b3139; }
-        .mode-tab-btn { flex: 1; padding: 10px; font-size: 12px; font-weight: bold; text-align: center; border-radius: 6px; cursor: pointer; color: #848e9c; }
+        
+        /* Fixed Clickable Mode Selector Tabs */
+        .mode-selector-tabs { display: flex; width: 100%; max-width: 412px; background: #1e2026; padding: 4px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #2b3139; position: relative; z-index: 999; }
+        .mode-tab-btn { flex: 1; padding: 12px 10px; font-size: 12px; font-weight: bold; text-align: center; border-radius: 6px; cursor: pointer; color: #848e9c; transition: background 0.2s; }
         .mode-tab-active { background: #f3ba2f; color: #181a20; }
         
-        /* 📱 Ultimate iPhone Canvas Frame */
+        /* Main Frame Wrapper (iPhone Mirror View) */
         .preview-canvas-container { width: 100%; max-width: 412px; background: #ffffff; color: #000000; border-radius: 12px; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.7); position: relative; min-height: 620px; }
         
-        /* 📸 Real iOS Status Bar Image Layer */
-        .iphone-status-header-bar { height: 44px; width: 100%; background-size: cover; background-position: center; position: relative; }
+        /* 📸 Real iOS Status Bar Image Layer Fix */
+        .iphone-status-header-bar { height: 44px; width: 100%; background-size: cover; background-position: center; position: relative; pointer-events: none; }
         .iphone-light-theme-bar { background-image: url('https://ibb.co'); }
         .iphone-dark-theme-bar { background-image: url('https://ibb.co'); }
-        
-        /* Custom Dynamic Text Overlay directly on top of real status bar assets */
-        .status-bar-time-overlay { position: absolute; left: 24px; top: 13px; font-size: 15px; font-weight: 600; font-family: -apple-system, BlinkMacSystemFont, sans-serif; letter-spacing: -0.2px; }
+        .status-bar-time-overlay { position: absolute; left: 24px; top: 13px; font-size: 15px; font-weight: 600; }
         .time-light { color: #000000; }
         .time-dark { color: #ffffff; }
 
-        /* VIEW 1: WEB3 WALLET */
+        /* ==================== VIEW 1: WEB3 WALLET ==================== */
         #view-wallet { display: block; background: #ffffff; color: #000000; }
-        .w-nav { display: flex; justify-content: space-between; align-items: center; padding: 10px 16px; }
-        .w-logo { background: #fcd435; width: 32px; height: 34px; border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+        .w-nav { display: flex; justify-content: space-between; align-items: center; padding: 8px 16px; background: #ffffff; }
+        .w-logo { background: #fcd435; width: 32px; height: 34px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 15px; }
         .w-toggle { display: flex; background: #eaecef; padding: 2px; border-radius: 8px; }
-        .w-toggle-btn { padding: 6px 14px; font-size: 14px; font-weight: 600; border-radius: 6px; color: #767f8d; }
+        .w-toggle-btn { padding: 6px 14px; font-size: 13.5px; font-weight: 600; border-radius: 6px; color: #767f8d; }
         .w-toggle-active { background: #ffffff; color: #1e2026; }
-        .w-body { padding: 16px; }
-        .w-account { font-size: 15px; font-weight: bold; color: #1e2026; display: flex; align-items: center; gap: 6px; }
-        .w-bal-row { font-size: 36px; font-weight: 800; color: #1e2026; margin: 8px 0 2px 0; letter-spacing: -0.8px; }
-        .w-grid { display: flex; justify-content: space-between; margin: 25px 0; text-align: center; }
-        .w-grid-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 8px; font-size: 13px; font-weight: 500; color: #1e2026; }
-        .w-grid-icon { width: 46px; height: 44px; background: #f5f5f5; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
-        .w-banner { background: #fef8e6; border-radius: 12px; padding: 15px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
-        .w-token-row { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; }
+        .w-body { padding: 16px; background: #ffffff; }
+        .w-account { font-size: 14px; font-weight: 600; color: #1e2026; display: flex; align-items: center; gap: 4px; }
+        .w-bal-row { font-size: 34px; font-weight: 800; color: #1e2026; margin: 6px 0 2px 0; letter-spacing: -0.5px; }
+        .w-grid { display: flex; justify-content: space-between; margin: 25px 0; }
+        .w-grid-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; font-size: 12.5px; font-weight: 500; color: #1e2026; }
+        .w-grid-icon { width: 44px; height: 44px; background: #f5f5f5; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+        .w-banner { background: #fef8e6; border-radius: 12px; padding: 12px 15px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; color: #000000; }
+        .w-token-row { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; border-bottom: 1px solid #f5f5f5; }
 
-        /* VIEW 2: GMAIL DEPOSIT EMAIL */
-        #view-email { display: none; background: #121214; color: #ffffff; min-height: 585px; }
-        .gm-bar { padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; font-size: 18px; }
-        .m-padding { padding: 12px 16px; }
-        .m-subject { font-size: 20px; font-weight: 400; color: #ffffff; line-height: 1.4; margin-bottom: 22px; }
+        /* ==================== VIEW 2: GMAIL INBOX ==================== */
+        #view-email { display: none; background: #121214; color: #ffffff; min-height: 580px; }
+        .gm-bar { padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; font-size: 18px; }
+        .m-padding { padding: 10px 16px; }
+        .m-subject { font-size: 19px; font-weight: 450; color: #ffffff; line-height: 1.4; margin-bottom: 20px; }
         .m-sender { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
-        .m-avatar { width: 40px; height: 40px; background: #b366ff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 18px; color: white; }
+        .m-avatar { width: 38px; height: 38px; background: #b366ff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 16px; color: white; }
         .b-card { background: #1e2026; border-radius: 4px; overflow: hidden; border: 1px solid #2b3139; }
-        .b-header { padding: 18px; text-align: center; border-bottom: 1px solid #2b3139; background: #181a20; color: #f3ba2f; font-weight: 800; font-size: 18px; letter-spacing: 1.5px; }
+        .b-header { padding: 18px; text-align: center; border-bottom: 1px solid #2b3139; background: #181a20; color: #f3ba2f; font-weight: 800; font-size: 17px; letter-spacing: 1.5px; }
         .b-body { padding: 25px 20px; background: #1e2026; }
-        .b-btn { display: inline-block; background: #f3ba2f; color: #181a20; text-decoration: none; font-weight: 700; padding: 12px 24px; border-radius: 4px; font-size: 14px; margin-bottom: 20px; }
+        .b-btn { display: inline-block; background: #f3ba2f; color: #181a20; text-decoration: none; font-weight: 700; padding: 12px 24px; border-radius: 4px; font-size: 13.5px; margin-bottom: 20px; }
 
-        /* VIEW 3: WITHDRAWAL DETAILS */
-        #view-withdrawal { display: none; background: #181a20; color: #ffffff; min-height: 585px; }
-        .wt-bar { padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #2b3139; font-size: 16px; font-weight: 600; }
-        .wt-hero { text-align: center; padding: 30px 16px 20px 16px; }
-        .wt-hero-num { font-size: 32px; font-weight: 700; color: #ffffff; margin-bottom: 6px; letter-spacing: -0.5px; }
-        .wt-status { color: #0ecb81; font-size: 14px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 4px; margin-bottom: 12px; }
+        /* ==================== VIEW 3: WITHDRAWAL DETAILS ==================== */
+        #view-withdrawal { display: none; background: #181a20; color: #ffffff; min-height: 580px; }
+        .wt-bar { padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #2b3139; font-size: 16px; font-weight: 500; }
+        .wt-hero { text-align: center; padding: 28px 16px 20px 16px; }
+        .wt-hero-num { font-size: 30px; font-weight: 700; color: #ffffff; margin-bottom: 6px; letter-spacing: -0.5px; }
+        .wt-status { color: #0ecb81; font-size: 13.5px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 4px; margin-bottom: 12px; }
         .wt-list { padding: 5px 16px; }
-        .wt-row { display: flex; justify-content: space-between; padding: 15px 0; border-bottom: 1px solid #2b3139; font-size: 14px; }
+        .wt-row { display: flex; justify-content: space-between; padding: 15px 0; border-bottom: 1px solid #2b3139; font-size: 13.5px; }
         .wt-lbl { color: #848e9c; }
         .wt-val { color: #ffffff; font-weight: 500; text-align: right; word-break: break-all; max-width: 250px; }
-        .wt-btn { display: block; text-align: center; background: #f3ba2f; color: #181a20; font-weight: 700; text-decoration: none; padding: 14px; border-radius: 8px; font-size: 15px; margin: 30px 16px; }
+        .wt-btn { display: block; text-align: center; background: #f3ba2f; color: #181a20; font-weight: 700; text-decoration: none; padding: 13px; border-radius: 6px; font-size: 14px; margin: 30px 16px; }
     </style>
 </head>
 <body>
@@ -89,6 +91,7 @@
         <button class="action-btn" onclick="syncEngine()">Apply Changes Instantly</button>
     </div>
 
+    <!-- Clickable Fixed Multi-Tabs Component -->
     <div class="mode-selector-tabs">
         <div class="mode-tab-btn mode-tab-active" id="tab-w" onclick="switchView('wallet')">1. Web3 Wallet</div>
         <div class="mode-tab-btn" id="tab-e" onclick="switchView('email')">2. Deposit Email</div>
@@ -96,18 +99,17 @@
     </div>
 
     <div class="preview-canvas-container">
-        <!-- 📱 Ultra-Realistic Status Bar Layer using genuine iOS png graphics -->
+        <!-- 📱 Dynamic Fix Header Status bar Layer -->
         <div class="iphone-status-header-bar iphone-light-theme-bar" id="statusBarLayer">
             <span class="status-bar-time-overlay time-light" id="lblTime">6:30</span>
         </div>
 
+        <!-- ==================== VIEW 1: WEB3 WALLET (FULL ASSETS LOOK) ==================== -->
         <div id="view-wallet">
             <div class="w-nav">
-                <div class="w-logo"><span style="background:#181a20; color:#f3ba2f; padding:4px 6px; border-radius:4px; font-weight:bold; font-size:10px;">B</span></div>
-                <div class="w-toggle"><div class="w-toggle-btn">Exchange</div><div class="w-toggle-btn w-toggle-active">Web3</div></div>
-                <div style="font-size:16px; font-weight:bold; color:#1e2026;">⛶ 🔍</div>
-            </div>
-            <div class="w-body">
-                <div class="w-account">▾ <span style="color:#929aa5; font-size:12px; font-weight:400; margin-left:4px;">0x78...Gr4P 📋</span></div>
-                <div class="w-bal-row">$<span id="vWalletBal">42,203.19</span></div>
-                <div style="color:#0ecb81; font-size:13px; font-weight:600; margin-bottom:20px;">+0.21%</div>
+                <div class="w-logo"><span style="transform: rotate(45deg); display:inline-block; font-size:12px;">◆</span></div>
+                <div class="w-toggle">
+                    <div class="w-toggle-btn">Exchange</div>
+                    <div class="w-toggle-btn w-toggle-active">Web3</div>
+                </div>
+                <div style="font-size:16px; color:#1e2026; display:flex; gap:12px; font-weight:bold;"><span>⛶</span> <span>🔍</span></div>
