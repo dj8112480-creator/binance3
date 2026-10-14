@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Binance Wallet</title>
+    <style>
+        * { box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, Arial, sans-serif; background-color: #0b0e11; color: #eaecef; margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center; }
+        .phone-canvas { width: 100%; max-width: 412px; min-height: 100vh; background-color: #181a20; display: flex; flex-direction: column; position: relative; }
+        
+        /* 📱 অরিজিনাল স্ক্রিনশট ম্যাচিং আইওএস স্ট্যাটাস বার */
+        .status-bar { height: 46px; display: flex; justify-content: space-between; align-items: center; padding: 0 16px; font-size: 15px; font-weight: 600; color: #ffffff; background: #181a20; letter-spacing: -0.3px; }
+        .sb-time { font-weight: 600; font-size: 16px; margin-left: 4px; }
+        .sb-right { display: flex; align-items: center; gap: 5px; font-size: 11px; font-weight: bold; }
+        .net-4g { font-size: 10.5px; font-weight: 800; letter-spacing: -0.5px; margin-right: -1px; }
+        .signal-bars { display: flex; align-items: flex-end; gap: 1.5px; height: 11px; margin: 0 1px; }
+        .signal-bar { width: 2.5px; background: #fff; border-radius: 0.5px; }
+        .sb-1 { height: 3px; } .sb-2 { height: 5px; } .sb-3 { height: 7.5px; } .sb-4 { height: 10px; }
+        .wifi-svg { width: 14px; height: 11px; fill: #ffffff; margin: 0 1px; }
+        .ios-battery-pill { width: 26px; height: 13px; border: 1.2px solid rgba(255,255,255,0.7); border-radius: 4px; padding: 1.5px; display: flex; align-items: center; justify-content: flex-end; position: relative; margin-left: 2px; }
+        .ios-battery-pill::after { content: ''; position: absolute; right: -3.5px; top: 3px; width: 1.5px; height: 4px; background: rgba(255,255,255,0.6); border-radius: 0 1px 1px 0; }
+        .ios-bat-inner { height: 100%; background: #ffffff; border-radius: 1.5px; }
+        .bat-num-overlay { font-size: 9px; font-weight: 800; color: #000000; position: absolute; left: 2px; z-index: 2; line-height: 1; }
+        
+        /* Binance App Header Layout */
+        .header-nav { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: #181a20; border-bottom: 1px solid #2b3139; }
+        .logo-box { background: #fcd435; color: #181a20; width: 32px; height: 32px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 15px; }
+        .tab-switch { display: flex; background: #2b3139; padding: 2px; border-radius: 6px; }
+        .tab-item { padding: 5px 12px; font-size: 13px; font-weight: 600; border-radius: 4px; color: #848e9c; }
+        .tab-active { background: #181a20; color: #ffffff; }
+        
+        /* Balance UI Module */
+        .balance-section { padding: 22px 20px; background: #1e2026; }
+        .lbl-title { color: #848e9c; font-size: 12px; margin-bottom: 6px; display: flex; justify-content: space-between; }
+        .crypto-big { font-size: 30px; font-weight: 700; color: #ffffff; letter-spacing: -0.5px; }
+        .fiat-sub { color: #848e9c; font-size: 13px; margin-top: 4px; font-weight: 500; }
+        
+        /* Grid Buttons Action Layer */
+        .grid-actions { display: flex; justify-content: space-around; padding: 18px 10px; background: #181a20; border-bottom: 1px solid #2b3139; }
+        .action-item { display: flex; flex-direction: column; align-items: center; gap: 6px; font-size: 12px; color: #eaecef; font-weight: 500; }
+        .action-circle { width: 42px; height: 42px; background: #2b3139; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; color: #f3ba2f; }
+        
+        /* Assets Assets List */
+        .list-section { padding: 16px 20px; flex-grow: 1; background: #181a20; }
+        .sec-header { font-size: 14px; font-weight: 700; color: #ffffff; margin-bottom: 12px; }
+        .coin-row { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; border-bottom: 1px solid #2b3139; }
+        .coin-left { display: flex; align-items: center; gap: 12px; }
+        .coin-icon { width: 36px; height: 36px; border-radius: 50%; background: #27a27a; color: #ffffff; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 16px; }
+        .coin-name { font-weight: 700; font-size: 15px; color: #fff; }
+        .coin-sub { color: #848e9c; font-size: 11px; margin-top: 2px; }
+        .coin-right { text-align: right; }
+        .coin-amt { font-weight: 700; font-size: 15px; color: #fff; }
+        .coin-val { color: #848e9c; font-size: 11.5px; margin-top: 2px; }
+        .back-link { display: block; text-align: center; padding: 12px; background: #1e2026; color: #f3ba2f; text-decoration: none; font-size: 12px; font-weight: bold; border-top: 1px solid #2b3139; }
+    </style>
+</head>
+<body>
+    <div class="phone-canvas">
+        <!-- 📱 High-Realistic Status bar Structure Layer Fix -->
+        <div class="status-bar">
+            <span class="sb-time" id="sTime">5:02</span>
+            <div class="sb-right">
+                <span class="net-4g" id="sNetG">4G</span>
+                <div class="signal-bars"><div class="signal-bar sb-1"></div><div class="signal-bar sb-2"></div><div class="signal-bar sb-3"></div><div class="signal-bar sb-4"></div></div>
+                <svg class="wifi-svg" viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9.44 2.03-12.7 5.31l1.41 1.41c2.89-2.89 6.88-4.72 11.29-4.72s8.4 1.83 11.29 4.72l1.41-1.41c-3.26-3.28-7.73-5.31-12.7-5.31zm0 4c-3.31 0-6.29 1.34-8.45 3.51l1.41 1.41c1.78-1.78 4.24-2.92 6.94-2.92s5.16 1.14 6.94 2.92l1.41-1.41c-2.16-2.17-5.14-3.51-8.45-3.51zm0 4c-1.66 0-3.15.67-4.24 1.76l1.41 1.41c.75-.75 1.78-1.21 2.83-1.21s2.08.46 2.83 1.21l1.41-1.41c-1.09-1.09-2.58-1.76-4.24-1.76zm0 3c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1z"/></svg>
+                <div class="ios-battery-pill">
+                    <span class="bat-num-overlay" id="sBatNum">65</span>
+                    <div class="ios-bat-inner" id="sBatFill"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="header-nav">
+            <div class="logo-box">B</div>
+            <div class="tab-switch"><div class="tab-item tab-active">Spot</div><div class="tab-item">Funding</div><div class="tab-item">Futures</div></div>
+            <div style="font-weight:bold; font-size:16px; color:#eaecef;">🔍 📊</div>
+        </div>
+
+        <div class="balance-section">
+            <div class="lbl-title"><span>Total Balance</span> <span>Hide 👁️</span></div>
+            <div><span class="crypto-big" id="outBTC">0.01443548</span> <span style="font-size:15px; color:#f3ba2f; font-weight:bold;">BTC</span></div>
+            <div class="fiat-sub">≈ $<span id="outUSD">42,203.19</span> USD</div>
+        </div>
+
+        <div class="grid-actions">
+            <div class="action-item"><div class="action-circle">📥</div>Deposit</div>
+            <div class="action-item"><div class="action-circle">📤</div>Withdraw</div>
+            <div class="action-item"><div class="action-circle">⇄</div>Transfer</div>
+            <div class="action-item"><div class="action-circle">🕒</div>History</div>
+        </div>
+
+        <div class="list-section">
+            <div class="sec-header">Crypto Assets List</div>
+            <div class="coin-row">
+                <div class="coin-left">
+                    <div class="coin-icon">₮</div>
+                    <div><div class="coin-name">USDT</div><div class="coin-sub">TetherUS</div></div>
+                </div>
+                <div class="coin-right">
+                    <div class="coin-amt" id="outUSDT">42,203.19</div>
+                    <div class="coin-val">$<span id="outUSDTVal">42,203.19</span></div>
+                </div>
+            </div>
+        </div>
+        <a href="index.html" class="back-link">← Back to Master Controller</a>
+    </div>
+
+    <script>
+        window.onload = function() {
+            document.getElementById('sTime').innerText = localStorage.getItem('b_time') || '5:02';
+            let bat = localStorage.getItem('b_bat') || '65';
+            document.getElementById('sBatNum').innerText = bat;
+            document.getElementById('sBatFill').style.width = bat + "%";
+            document.getElementById('sNetG').innerText = localStorage.getItem('b_net') || '4G';
+            
+            let rawBal = localStorage.getItem('b_wbal') || '42,203.19';
+            let cleanNum = parseFloat(rawBal.replace(/[^0-9.]/g, '')) || 42203.19;
+            
+            document.getElementById('outUSD').innerText = cleanNum.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            document.getElementById('outUSDT').innerText = cleanNum.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            document.getElementById('outUSDTVal').innerText = cleanNum.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            
+            // বিটকয়েন কনভার্সন রেট রিয়েল লাইভ সিঙ্ক 
+            document.getElementById('outBTC').innerText = (cleanNum / 64250).toFixed(8);
+        }
+    </script>
+</body>
+</html>
