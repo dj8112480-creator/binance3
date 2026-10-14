@@ -5,11 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Withdrawal Details</title>
     <style>
-        * { box-sizing: border-box; }
         body { font-family: -apple-system, BlinkMacSystemFont, Arial, sans-serif; background-color: #000000; color: #ffffff; margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center; }
         .phone-canvas { width: 100%; max-width: 412px; min-height: 100vh; background-color: #181a20; display: flex; flex-direction: column; }
-        
-        /* 📱 অরিজিনাল স্ক্রিনশট ম্যাচিং আইওএস স্ট্যাটাস বার */
         .status-bar { height: 46px; display: flex; justify-content: space-between; align-items: center; padding: 0 16px; font-size: 15px; font-weight: 600; color: #ffffff; background: #181a20; letter-spacing: -0.3px; }
         .sb-time { font-weight: 600; font-size: 16px; margin-left: 4px; }
         .sb-right { display: flex; align-items: center; gap: 5px; font-size: 11px; font-weight: bold; }
@@ -22,17 +19,15 @@
         .ios-battery-pill::after { content: ''; position: absolute; right: -3.5px; top: 3px; width: 1.5px; height: 4px; background: rgba(255,255,255,0.6); border-radius: 0 1px 1px 0; }
         .ios-bat-inner { height: 100%; background: #ffffff; border-radius: 1.5px; }
         .bat-num-overlay { font-size: 9px; font-weight: 800; color: #000000; position: absolute; left: 2px; z-index: 2; line-height: 1; }
-        
         .with-top { padding: 14px 16px; font-weight: 600; font-size: 16px; border-bottom: 1px solid #2b3139; display: flex; justify-content: space-between; }
         .hero-num-box { text-align: center; padding: 25px 16px; }
         .hero-minus { font-size: 32px; font-weight: 700; color: #f6465d; margin-bottom: 6px; letter-spacing: -0.5px; }
         .hero-comp { color: #0ecb81; font-size: 13.5px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 4px; margin-bottom: 10px; }
-        .with-list { display: flex; flex-direction: column; gap: 14px; font-size: 13.5px; padding: 10px 16px; flex-grow: 1; }
+        .with-list { display: flex; flex-direction: column; gap: 14px; font-size: 14px; padding: 10px 16px; flex-grow: 1; }
         .with-row { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px solid #2b3139; padding-bottom: 14px; }
         .with-lbl { color: #848e9c; }
         .with-val { color: #ffffff; font-weight: 500; text-align: right; word-break: break-all; max-width: 230px; font-family: monospace; font-size: 13px; }
         .btn-with-action { display: block; text-align: center; background: #f3ba2f; color: #181a20; font-weight: 700; padding: 14px; border-radius: 8px; font-size: 15px; margin: 25px 16px; text-decoration: none; }
-        .back-link { display: block; text-align: center; padding: 12px; background: #121214; color: #f3ba2f; text-decoration: none; font-size: 12px; font-weight: bold; border-top: 1px solid #2b3139; }
     </style>
 </head>
 <body>
@@ -57,15 +52,14 @@
         </div>
         <div class="with-list">
             <div class="with-row"><span class="with-lbl">Network</span><span class="with-val" style="font-family:sans-serif;">TRX (TRC20)</span></div>
-            <div class="with-row"><span class="with-lbl">Address</span><span class="with-val" id="outAddr">TX7af...c3b2a 📋</span></div>
+            <div class="with-row"><span class="with-lbl">Address</span><span class="with-val" id="outAddr">TX7afK9RjMvC5zHqE7bHn2C6eK5d4cfr5d4c3b2a 📋</span></div>
             <div class="with-row"><span class="with-lbl">TxID</span><span class="with-val" style="color:#848e9c;">df85b7e88d8b46e356c9a75d5a73e655... 📋</span></div>
             <div class="with-row"><span class="with-lbl">Amount</span><span class="with-val" style="font-family:sans-serif;" id="outTot">773.49665 USDT</span></div>
             <div class="with-row"><span class="with-lbl">Network fee</span><span class="with-val" style="font-family:sans-serif;" id="outFee">1.5 TRX</span></div>
             <div class="with-row"><span class="with-lbl">Wallet</span><span class="with-val" style="font-family:sans-serif;">Spot Wallet</span></div>
             <div class="with-row" style="border:none;"><span class="with-lbl">Date</span><span class="with-val" style="font-family:sans-serif; font-size:12.5px;" id="outDate">2025-04-04 10:43:12</span></div>
         </div>
-        <a href="index.html" class="btn-with-action">Withdraw Again</a>
-        <a href="index.html" class="back-link">← Back to Master Controller</a>
+        <a href="#" class="btn-with-action">Withdraw Again</a>
     </div>
     <script>
         window.onload = function() {
@@ -73,8 +67,7 @@
             let bat = localStorage.getItem('b_bat') || '65';
             document.getElementById('wtBatNum').innerText = bat;
             document.getElementById('wtBatFill').style.width = bat + "%";
-            let net = localStorage.getItem('b_net') || '4G';
-            document.getElementById('wtNetG').innerText = net;
+            document.getElementById('wtNetG').innerText = localStorage.getItem('b_net') || '4G';
             document.getElementById('outHero').innerText = localStorage.getItem('b_wthero') || '-771.99 USDT';
             document.getElementById('outTot').innerText = localStorage.getItem('b_wttot') || '773.49665 USDT';
             document.getElementById('outAddr').innerHTML = (localStorage.getItem('b_wtaddr') || 'TX7afK9RjMvC5zHqE7bHn2C6eK5d4cfr5d4c3b2a') + ' 📋';
