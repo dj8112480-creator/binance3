@@ -2,98 +2,112 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Binance Advanced Global Controller</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Binance Original UI Simulator Engine</title>
     <style>
         * { box-sizing: border-box; }
-        body { font-family: -apple-system, BlinkMacSystemFont, Arial, sans-serif; background-color: #0b0e11; color: #eaecef; padding: 20px 15px; margin: 0; }
-        h1 { color: #f3ba2f; text-align: center; font-size: 22px; margin-bottom: 5px; }
-        .sub { font-size: 12px; color: #848e9c; text-align: center; margin-bottom: 20px; }
-        .box { max-width: 460px; margin: 0 auto; background: #1e2026; padding: 18px; border-radius: 12px; border: 1px solid #2b3139; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
-        .sec-t { font-size: 13px; font-weight: bold; color: #f3ba2f; margin-bottom: 12px; border-bottom: 1px solid #2b3139; padding-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px; }
-        .fg { margin-bottom: 12px; display: flex; flex-direction: column; }
-        label { font-size: 11.5px; color: #848e9c; margin-bottom: 4px; font-weight: 500; }
-        input { padding: 10px; border-radius: 6px; border: 1px solid #474f59; background: #181a20; color: white; font-size: 13.5px; }
-        .btn-sub { width: 100%; padding: 14px; background: #f3ba2f; color: #181a20; border: none; border-radius: 6px; font-size: 15px; font-weight: bold; cursor: pointer; margin-top: 10px; }
-        .btn-sub:hover { background: #dfa516; }
-        .links-box { max-width: 460px; margin: 0 auto; background: #1e2026; padding: 15px; border-radius: 12px; border: 1px solid #2b3139; text-align: center; }
-        .links-box a { display: block; background: #2b3139; color: #f3ba2f; text-decoration: none; padding: 12px; margin: 8px auto; border-radius: 6px; font-weight: bold; border: 1px solid #f3ba2f; font-size: 13px; }
+        body { font-family: -apple-system, BlinkMacSystemFont, Arial, sans-serif; background-color: #0b0e11; color: #eaecef; padding: 20px 10px; margin: 0; display: flex; flex-direction: column; align-items: center; }
+        h1 { color: #f3ba2f; font-size: 22px; text-align: center; margin-bottom: 5px; }
+        .subtitle { font-size: 12px; color: #848e9c; text-align: center; margin-bottom: 20px; }
+        .setup-panel { width: 100%; max-width: 412px; background: #1e2026; padding: 18px; border-radius: 12px; border: 1px solid #2b3139; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.4); }
+        .section-title { font-size: 13px; font-weight: bold; color: #f3ba2f; margin-bottom: 12px; border-bottom: 1px solid #2b3139; padding-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .form-group { margin-bottom: 12px; display: flex; flex-direction: column; }
+        label { font-size: 11px; color: #848e9c; margin-bottom: 5px; font-weight: 500; }
+        input { padding: 10px; border-radius: 6px; border: 1px solid #474f59; background: #181a20; color: white; font-size: 14px; }
+        .action-btn { width: 100%; padding: 13px; background: #f3ba2f; color: #181a20; border: none; border-radius: 6px; font-size: 14px; font-weight: bold; cursor: pointer; }
+        .mode-selector-tabs { display: flex; width: 100%; max-width: 412px; background: #1e2026; padding: 4px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #2b3139; }
+        .mode-tab-btn { flex: 1; padding: 10px; font-size: 12px; font-weight: bold; text-align: center; border-radius: 6px; cursor: pointer; color: #848e9c; }
+        .mode-tab-active { background: #f3ba2f; color: #181a20; }
+        
+        /* 📱 Ultimate iPhone Canvas Frame */
+        .preview-canvas-container { width: 100%; max-width: 412px; background: #ffffff; color: #000000; border-radius: 12px; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.7); position: relative; min-height: 620px; }
+        
+        /* 📸 Real iOS Status Bar Image Layer */
+        .iphone-status-header-bar { height: 44px; width: 100%; background-size: cover; background-position: center; position: relative; }
+        .iphone-light-theme-bar { background-image: url('https://ibb.co'); }
+        .iphone-dark-theme-bar { background-image: url('https://ibb.co'); }
+        
+        /* Custom Dynamic Text Overlay directly on top of real status bar assets */
+        .status-bar-time-overlay { position: absolute; left: 24px; top: 13px; font-size: 15px; font-weight: 600; font-family: -apple-system, BlinkMacSystemFont, sans-serif; letter-spacing: -0.2px; }
+        .time-light { color: #000000; }
+        .time-dark { color: #ffffff; }
+
+        /* VIEW 1: WEB3 WALLET */
+        #view-wallet { display: block; background: #ffffff; color: #000000; }
+        .w-nav { display: flex; justify-content: space-between; align-items: center; padding: 10px 16px; }
+        .w-logo { background: #fcd435; width: 32px; height: 34px; border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+        .w-toggle { display: flex; background: #eaecef; padding: 2px; border-radius: 8px; }
+        .w-toggle-btn { padding: 6px 14px; font-size: 14px; font-weight: 600; border-radius: 6px; color: #767f8d; }
+        .w-toggle-active { background: #ffffff; color: #1e2026; }
+        .w-body { padding: 16px; }
+        .w-account { font-size: 15px; font-weight: bold; color: #1e2026; display: flex; align-items: center; gap: 6px; }
+        .w-bal-row { font-size: 36px; font-weight: 800; color: #1e2026; margin: 8px 0 2px 0; letter-spacing: -0.8px; }
+        .w-grid { display: flex; justify-content: space-between; margin: 25px 0; text-align: center; }
+        .w-grid-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 8px; font-size: 13px; font-weight: 500; color: #1e2026; }
+        .w-grid-icon { width: 46px; height: 44px; background: #f5f5f5; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
+        .w-banner { background: #fef8e6; border-radius: 12px; padding: 15px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .w-token-row { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; }
+
+        /* VIEW 2: GMAIL DEPOSIT EMAIL */
+        #view-email { display: none; background: #121214; color: #ffffff; min-height: 585px; }
+        .gm-bar { padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; font-size: 18px; }
+        .m-padding { padding: 12px 16px; }
+        .m-subject { font-size: 20px; font-weight: 400; color: #ffffff; line-height: 1.4; margin-bottom: 22px; }
+        .m-sender { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .m-avatar { width: 40px; height: 40px; background: #b366ff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 18px; color: white; }
+        .b-card { background: #1e2026; border-radius: 4px; overflow: hidden; border: 1px solid #2b3139; }
+        .b-header { padding: 18px; text-align: center; border-bottom: 1px solid #2b3139; background: #181a20; color: #f3ba2f; font-weight: 800; font-size: 18px; letter-spacing: 1.5px; }
+        .b-body { padding: 25px 20px; background: #1e2026; }
+        .b-btn { display: inline-block; background: #f3ba2f; color: #181a20; text-decoration: none; font-weight: 700; padding: 12px 24px; border-radius: 4px; font-size: 14px; margin-bottom: 20px; }
+
+        /* VIEW 3: WITHDRAWAL DETAILS */
+        #view-withdrawal { display: none; background: #181a20; color: #ffffff; min-height: 585px; }
+        .wt-bar { padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #2b3139; font-size: 16px; font-weight: 600; }
+        .wt-hero { text-align: center; padding: 30px 16px 20px 16px; }
+        .wt-hero-num { font-size: 32px; font-weight: 700; color: #ffffff; margin-bottom: 6px; letter-spacing: -0.5px; }
+        .wt-status { color: #0ecb81; font-size: 14px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 4px; margin-bottom: 12px; }
+        .wt-list { padding: 5px 16px; }
+        .wt-row { display: flex; justify-content: space-between; padding: 15px 0; border-bottom: 1px solid #2b3139; font-size: 14px; }
+        .wt-lbl { color: #848e9c; }
+        .wt-val { color: #ffffff; font-weight: 500; text-align: right; word-break: break-all; max-width: 250px; }
+        .wt-btn { display: block; text-align: center; background: #f3ba2f; color: #181a20; font-weight: 700; text-decoration: none; padding: 14px; border-radius: 8px; font-size: 15px; margin: 30px 16px; }
     </style>
 </head>
 <body>
-    <h1>Binance Ultimate Engine</h1>
-    <div class="sub">Pixel-Perfect Multi-Link Synchronizer Framework</div>
+
+    <h1>Binance Core Engine Pro</h1>
+    <div class="subtitle">Unified Pixel-Perfect Live Simulator Engine Dashboard</div>
     
-    <div class="box">
-        <div class="sec-t">📱 Global iPhone Status Bar Settings</div>
-        <div class="fg"><label>iPhone System Time (e.g., 10:09 / 3:16):</label><input type="text" id="gTime" value="10:09"></div>
-        <div class="fg"><label>Battery Level Percentage Indicator (e.g., 69 / 82):</label><input type="number" id="gBat" value="69"></div>
-        <div class="fg"><label>Network Tag Protocol (e.g., 4G / 5G):</label><input type="text" id="gNet" value="4G"></div>
-        
-        <div class="sec-t" style="margin-top:16px;">💰 1. Web3 Wallet Balance Settings</div>
-        <div class="fg"><label>Total Crypto Assets Balance Amount (USDT):</label><input type="text" id="wBal" value="1567.85"></div>
-        <div class="fg"><label>BTC Live Rate Matrix (e.g., 5000.94):</label><input type="text" id="wBtc" value="5000.94"></div>
-
-        <div class="sec-t" style="margin-top:16px;">📩 2. Deposit Confirmed Email Settings</div>
-        <div class="fg"><label>Email Subject Title Date-Time (e.g., 2026 15:16:03):</label><input type="text" id="eDateTime" value="2026 15:16:03"></div>
-        <div class="fg"><label>Email Sub-Header Mail Timestamp (e.g., 12:48):</label><input type="text" id="eSubTime" value="12:48"></div>
-        <div class="fg"><label>Core Successfully Deposited Amount (USDT):</label><input type="text" id="eAmt" value="300"></div>
-
-        <div class="sec-t" style="margin-top:16px;">📤 3 & 4. Withdrawal Details Layout Settings</div>
-        <div class="fg"><label>Withdrawal Header Main Hero Amount (e.g., 106.99 USDT):</label><input type="text" id="wtHero" value="106.99 USDT"></div>
-        <div class="fg"><label>Custom Destination Network Label (e.g., Trx / TRX):</label><input type="text" id="wtNetLabel" value="Trx"></div>
-        <div class="fg"><label>Destination Target Crypto Wallet Address:</label><input type="text" id="wtAddr" value="TA4HyrAZaXH4FnLob4jpdTi57Z6eHEysMz"></div>
-        <div class="fg"><label>Blockchain Unique Transaction ID Hash (Txid):</label><input type="text" id="wtTxid" value="26ff3b5195076e6b9cfe8e79765886f6db3d2a266210ad2e446cdc358f636f5"></div>
-        <div class="fg"><label>Raw Withdrawal Amount Value (e.g., 108.49 USDT):</label><input type="text" id="wtAmt" value="108.49 USDT"></div>
-        <div class="fg"><label>Network Fee Operational Cost Amount (e.g., 1.5 USDT):</label><input type="text" id="wtFee" value="1.5 USDT"></div>
-        <div class="fg"><label>Receipt Calendar Timestamp Date (e.g., 7-08-2026):</label><input type="text" id="wtDate" value="7-08-2026"></div>
-
-        <button class="btn-sub" onclick="saveMasterDatabase()">Apply & Synchronize Everything</button>
+    <div class="setup-panel">
+        <div class="section-title">⚙️ Simulator Variables Layout Panel</div>
+        <div class="form-group"><label>iPhone Top Status Bar Time (e.g., 6:30):</label><input type="text" id="inpTime" value="6:30"></div>
+        <div class="form-group"><label>1. Web3 Wallet Balance Amount (USD):</label><input type="text" id="inpBal" value="42,203.19"></div>
+        <div class="form-group"><label>2. Deposit Email / 3. Withdrawal USDT Value:</label><input type="text" id="inpTxAmt" value="773.49665"></div>
+        <div class="form-group"><label>Custom Date & Time (e.g., 2025-04-04 10:43:12):</label><input type="text" id="inpDate" value="2025-04-04 10:43:12"></div>
+        <div class="form-group"><label>3. Custom Withdrawal Wallet Address:</label><input type="text" id="inpAddress" value="TX7afK9RjMvC5zHqE7bHn2C6eK5d4cfr5d4c3b2a"></div>
+        <div class="form-group"><label>3. Custom Network Fee Value (e.g., 1.5 TRX):</label><input type="text" id="inpFee" value="1.5 TRX"></div>
+        <button class="action-btn" onclick="syncEngine()">Apply Changes Instantly</button>
     </div>
 
-    <div class="links-box">
-        <a href="crypto-wallet.html" target="_blank">🗂️ 1. Open Web3 Crypto Wallet Screen</a>
-        <a href="binance-deposit-email.html" target="_blank">📬 2. Open Custom Deposit Email Screen</a>
-        <a href="withdrawal-details.html" target="_blank">📤 3. Open Withdrawal Screen (Hero View)</a>
-        <a href="withdrawal-details (1).html" target="_blank">📑 4. Open Withdrawal Details (List View)</a>
+    <div class="mode-selector-tabs">
+        <div class="mode-tab-btn mode-tab-active" id="tab-w" onclick="switchView('wallet')">1. Web3 Wallet</div>
+        <div class="mode-tab-btn" id="tab-e" onclick="switchView('email')">2. Deposit Email</div>
+        <div class="mode-tab-btn" id="tab-wt" onclick="switchView('withdrawal')">3. Withdrawal</div>
     </div>
 
-    <script>
-        window.onload = function() {
-            document.getElementById('gTime').value = localStorage.getItem('u_time') || '10:09';
-            document.getElementById('gBat').value = localStorage.getItem('u_bat') || '69';
-            document.getElementById('gNet').value = localStorage.getItem('u_net') || '4G';
-            document.getElementById('wBal').value = localStorage.getItem('u_wbal') || '1567.85';
-            document.getElementById('wBtc').value = localStorage.getItem('u_wbtc') || '5000.94';
-            document.getElementById('eDateTime').value = localStorage.getItem('u_edatetime') || '2026 15:16:03';
-            document.getElementById('eSubTime').value = localStorage.getItem('u_esubtime') || '12:48';
-            document.getElementById('eAmt').value = localStorage.getItem('u_eamt') || '300';
-            document.getElementById('wtHero').value = localStorage.getItem('u_wthero') || '106.99 USDT';
-            document.getElementById('wtNetLabel').value = localStorage.getItem('u_wtnetlabel') || 'Trx';
-            document.getElementById('wtAddr').value = localStorage.getItem('u_wtaddr') || 'TA4HyrAZaXH4FnLob4jpdTi57Z6eHEysMz';
-            document.getElementById('wtTxid').value = localStorage.getItem('u_wttxid') || '26ff3b5195076e6b9cfe8e79765886f6db3d2a266210ad2e446cdc358f636f5';
-            document.getElementById('wtAmt').value = localStorage.getItem('u_wtamt') || '108.49 USDT';
-            document.getElementById('wtFee').value = localStorage.getItem('u_wtfee') || '1.5 USDT';
-            document.getElementById('wtDate').value = localStorage.getItem('u_wtdate') || '7-08-2026';
-        }
-        function saveMasterDatabase() {
-            localStorage.setItem('u_time', document.getElementById('gTime').value);
-            localStorage.setItem('u_bat', document.getElementById('gBat').value);
-            localStorage.setItem('u_net', document.getElementById('gNet').value);
-            localStorage.setItem('u_wbal', document.getElementById('wBal').value);
-            localStorage.setItem('u_wbtc', document.getElementById('wBtc').value);
-            localStorage.setItem('u_edatetime', document.getElementById('eDateTime').value);
-            localStorage.setItem('u_esubtime', document.getElementById('eSubTime').value);
-            localStorage.setItem('u_eamt', document.getElementById('eAmt').value);
-            localStorage.setItem('u_wthero', document.getElementById('wtHero').value);
-            localStorage.setItem('u_wtnetlabel', document.getElementById('wtNetLabel').value);
-            localStorage.setItem('u_wtaddr', document.getElementById('wtAddr').value);
-            localStorage.setItem('u_wttxid', document.getElementById('wtTxid').value);
-            localStorage.setItem('u_wtamt', document.getElementById('wtAmt').value);
-            localStorage.setItem('u_wtfee', document.getElementById('wtFee').value);
-            localStorage.setItem('u_wtdate', document.getElementById('wtDate').value);
-            alert("Database updated! Now open the target files and refresh.");
-        }
-    </script>
-</body>
-</html>
+    <div class="preview-canvas-container">
+        <!-- 📱 Ultra-Realistic Status Bar Layer using genuine iOS png graphics -->
+        <div class="iphone-status-header-bar iphone-light-theme-bar" id="statusBarLayer">
+            <span class="status-bar-time-overlay time-light" id="lblTime">6:30</span>
+        </div>
+
+        <div id="view-wallet">
+            <div class="w-nav">
+                <div class="w-logo"><span style="background:#181a20; color:#f3ba2f; padding:4px 6px; border-radius:4px; font-weight:bold; font-size:10px;">B</span></div>
+                <div class="w-toggle"><div class="w-toggle-btn">Exchange</div><div class="w-toggle-btn w-toggle-active">Web3</div></div>
+                <div style="font-size:16px; font-weight:bold; color:#1e2026;">⛶ 🔍</div>
+            </div>
+            <div class="w-body">
+                <div class="w-account">▾ <span style="color:#929aa5; font-size:12px; font-weight:400; margin-left:4px;">0x78...Gr4P 📋</span></div>
+                <div class="w-bal-row">$<span id="vWalletBal">42,203.19</span></div>
+                <div style="color:#0ecb81; font-size:13px; font-weight:600; margin-bottom:20px;">+0.21%</div>
